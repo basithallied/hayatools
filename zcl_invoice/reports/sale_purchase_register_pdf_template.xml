@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_zcl_sale_purchase_register">
+        <t t-call="web.html_container">
+            <div class="page">
+                <p style="text-align: center; font-size: 20px;">
+                    <t t-esc="company_name"/>
+                </p>
+
+                <div style="text-align: center;">
+                    <p style="font-size: 20px; font-weight: bold;">
+                        Sale Purchase Register Report
+                    </p>
+                    <p style="font-size: 20px;">
+                        <t t-esc="register_type"/>
+                    </p>
+                    <p style="font-size: 18px;">
+                        <strong>Journal:</strong>
+                        <t t-esc="journal_name"/>
+                    </p>
+                    <p style="text-align: center; font-size: 18px">
+                        <strong>Start Date:</strong>
+                        <t t-esc="from_date"/>
+                        ;
+                        <strong>End Date:</strong>
+                        <t t-esc="to_date"/>
+                    </p>
+                </div>
+
+                <table class="table table-bordered table-striped"
+                       style="width: 100%; text-align: center; border-collapse: collapse; font-size: 20px;">
+                    <thead style="background-color: #f2f2f2;">
+
+                        <tr>
+                            <th style="border: 1px solid black; padding: 8px; width: 12%;">Date</th>
+                            <th style="border: 1px solid black; padding: 8px; width: 50%;">Partner</th>
+                            <th style="border: 1px solid black; padding: 8px; width: 35%;">Vch Type</th>
+                            <th style="border: 1px solid black; padding: 8px; width: 13%;">Vch No</th>
+                            <th style="border: 1px solid black; padding: 8px; width: 15%;" t-if="is_sale">Debit
+                            </th>
+                            <th style="border: 1px solid black; padding: 8px; width: 15%;" t-if="is_purchase">Credit
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="total_sale" t-value="0"/>
+                        <t t-set="total_purchase" t-value="0"/>
+                        <t t-foreach="entries" t-as="entry">
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px;">
+                                    <t t-esc="entry.invoice_date.strftime('%d/%m/%y') if entry.invoice_date else ''"/>
+                                </td>
+                                <td style="border: 1px solid black; padding: 8px; white-space: nowrap;">
+                                    <t t-esc="entry.partner_id.name or 'N/A'"/>
+                                </td>
+                                <td style="border: 1px solid black; padding: 8px; white-space: nowrap;">
+                                    <t t-esc="entry.journal_id.name"/>
+                                </td>
+                                <td style="border: 1px solid black; padding: 8px;">
+                                    <t t-esc="entry.name"/>
+                                </td>
+                                <td style="border: 1px solid black; padding: 8px;" t-if="is_sale">
+                                    <t t-esc="'{:,.2f}'.format(entry.amount_total)"/>
+                                    <t t-set="total_sale" t-value="total_sale + entry.amount_total"/>
+                                </td>
+                                <td style="border: 1px solid black; padding: 8px;" t-if="is_purchase">
+                                    <t t-esc="'{:,.2f}'.format(entry.amount_total)"/>
+                                    <t t-set="total_purchase" t-value="total_purchase + entry.amount_total"/>
+                                </td>
+                            </tr>
+                        </t>
+
+                        <tr>
+                            <td colspan="4" style="border: 1px solid black; padding: 8px; text-align: right;">
+                                <strong>Total:</strong>
+                            </td>
+                            <td style="border: 1px solid black; padding: 8px;" t-if="is_sale">
+                                <strong>
+                                    <t t-esc="'{:,.2f}'.format(total_sale)"/>
+                                </strong>
+                            </td>
+                            <td style="border: 1px solid black; padding: 8px;" t-if="is_purchase">
+                                <strong>
+                                    <t t-esc="'{:,.2f}'.format(total_purchase)"/>
+                                </strong>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_payment_form_bank_approval" model="ir.ui.view">
+        <field name="name">account.payment.form.bank.approval</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <!-- Add Approve button -->
+            <xpath expr="//header" position="inside">
+                <button name="action_post" string="Approve" type="object" class="oe_highlight"
+                        groups="zcl_bank_approval.group_bank_approver"
+                        invisible="state != 'to_approve' or not is_bank_journal" data-hotkey="v"/>
+            </xpath>
+
+            <!-- Modify visibility of standard Post/Validate button -->
+            <xpath expr="//button[@name='action_post']" position="attributes">
+                 <attribute name="invisible">state != 'draft'</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='state']" position="attributes">
+                <attribute name="statusbar_visible">draft,to_approve,posted,cancel</attribute>
+            </xpath>
+
+            <xpath expr="//sheet" position="inside">
+                <field name="is_bank_journal" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

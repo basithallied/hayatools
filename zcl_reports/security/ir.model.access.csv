@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_repor_partner_ledger,access.account.repor.partner.ledger,model_account_repor_partner_ledger,,1,1,1,1
+access_account_common_account_report,access.account.common.account.report,model_account_common_account_report,,1,1,1,1
+
+
+
+

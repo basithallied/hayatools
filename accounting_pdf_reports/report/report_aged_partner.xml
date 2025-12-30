@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_agedpartnerbalance">
+        <t t-call="web.html_container">
+            <t t-set="data_report_margin_top" t-value="12"/>
+            <t t-set="data_report_header_spacing" t-value="17"/>
+            <t t-set="data_report_dpi" t-value="110"/>
+            <t t-call="web.internal_layout">
+                <div class="page">
+                    <h2>Aged Partner Balance</h2>
+
+                    <div class="row mt32">
+                        <div class="col-3">
+                            <strong>Start Date:</strong>
+                            <p t-esc="data['date_from']"/>
+                        </div>
+<!--                        <div class="col-3">-->
+<!--                            <strong>Period Length (days)</strong>-->
+<!--                            <p t-esc="data['period_length']"/>-->
+<!--                        </div>-->
+                    </div>
+                    <div class="row mb32">
+                        <div class="col-3">
+                            <strong>Partner's:</strong>
+                            <p>
+                                <span t-if="data['result_selection'] == 'customer'">Receivable Accounts</span>
+                                <span t-if="data['result_selection'] == 'supplier'">Payable Accounts</span>
+                                <span t-if="data['result_selection'] == 'customer_supplier'">Receivable and Payable Accounts</span>
+                            </p>
+                        </div>
+                        <div class="col-3">
+                            <strong>Target Moves:</strong>
+                            <p>
+                                <span t-if="data['target_move'] == 'all'">All Entries</span>
+                                <span t-if="data['target_move'] == 'posted'">All Posted Entries</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <table class="table table-sm table-reports">
+                        <thead>
+                            <tr style="text-align: center;background-color: #f5f5f5;">
+                                <th style="text-align: center"><b>Partners</b></th>
+                                <th style="text-align: center"><b><span>Not due</span></b></th>
+                                <th style="text-align: center"><b><span t-esc="data['6']['name']"/></b></th>
+                                <th style="text-align: center"><b><span t-esc="data['5']['name']"/></b></th>
+                                <th style="text-align: center"><b><span t-esc="data['4']['name']"/></b></th>
+                                <th style="text-align: center"><b><span t-esc="data['3']['name']"/></b></th>
+                                <th style="text-align: center"><b><span t-esc="data['2']['name']"/></b></th>
+                                <th style="text-align: center"><b><span t-esc="data['1']['name']"/></b></th>
+                                <th style="text-align: center"><b><span t-esc="data['0']['name']"/></b></th>
+                                <th style="text-align: center"><b>Total</b></th>
+                            </tr>
+<!--                            <tr t-if="get_partner_lines">-->
+<!--                                <th >Account Total</th>-->
+<!--                                <th style="text-align: center"><span t-esc="get_direction[8]" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></th>-->
+<!--                                <th style="text-align: center"><span t-esc="get_direction[6]" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></th>-->
+<!--                                <th style="text-align: center"><span t-esc="get_direction[5]" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></th>-->
+<!--                                <th style="text-align: center"><span t-esc="get_direction[4]" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></th>-->
+<!--                                <th style="text-align: center"><span t-esc="get_direction[3]" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></th>-->
+<!--                                <th style="text-align: center"><span t-esc="get_direction[2]" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></th>-->
+<!--                                <th style="text-align: center"><span t-esc="get_direction[1]" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></th>-->
+<!--                                <th style="text-align: center"><span t-esc="get_direction[0]" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></th>-->
+<!--                                <th style="text-align: center"><span t-esc="get_direction[7]" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></th>-->
+<!--                            </tr>-->
+
+
+<!--                        REMOVE CURRENCY    -->
+
+                             <tr t-if="get_partner_lines">
+                                <th >Account Total</th>
+                                <th style="text-align: center"><span t-esc="'{:.2f}'.format(get_direction[8])" /></th>
+                                <th style="text-align: center"><span t-esc="'{:.2f}'.format(get_direction[6])" /></th>
+                                <th style="text-align: center"><span t-esc="'{:.2f}'.format(get_direction[5])" /></th>
+                                <th style="text-align: center"><span t-esc="'{:.2f}'.format(get_direction[4])" /></th>
+                                <th style="text-align: center"><span t-esc="'{:.2f}'.format(get_direction[3])" /></th>
+                                <th style="text-align: center"><span t-esc="'{:.2f}'.format(get_direction[2])" /></th>
+                                <th style="text-align: center"><span t-esc="'{:.2f}'.format(get_direction[1])" /></th>
+                                <th style="text-align: center"><span t-esc="'{:.2f}'.format(get_direction[0])" /></th>
+                                <th style="text-align: center"><span t-esc="'{:.2f}'.format(get_direction[7])" /></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+<!--                            <tr t-foreach="get_partner_lines" t-as="partner">-->
+<!--                                <td>-->
+<!--                                    <span t-esc="partner['name']"/>-->
+<!--                                </td>-->
+<!--                                <td align="center">-->
+<!--                                    <span t-esc="partner['direction']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                </td>-->
+<!--                                <td align="center">-->
+<!--                                    <span t-esc="partner['6']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                </td>-->
+<!--                                <td align="center">-->
+<!--                                    <span t-esc="partner['5']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                </td>-->
+<!--                                <td align="center">-->
+<!--                                    <span t-esc="partner['4']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                </td>-->
+<!--                                <td align="center">-->
+<!--                                    <span t-esc="partner['3']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                </td>-->
+<!--                                <td align="center">-->
+<!--                                    <span t-esc="partner['2']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                </td>-->
+<!--                                <td align="center">-->
+<!--                                    <span t-esc="partner['1']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                </td>-->
+<!--                                <td align="center">-->
+<!--                                    <span t-esc="partner['0']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                </td>-->
+<!--                                <td align="center">-->
+<!--                                    <span t-esc="partner['total']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+
+
+<!--                            REMOVE CURRENCY -->
+
+                            <tr t-foreach="get_partner_lines" t-as="partner">
+                                <td>
+                                    <span t-esc="partner['name']"/>
+                                </td>
+                                <td align="center">
+                                    <span t-esc="'{:.2f}'.format(partner['direction'])"  />
+                                </td>
+                                <td align="center">
+                                    <span t-esc="'{:.2f}'.format(partner['6'])"  />
+                                </td>
+                                <td align="center">
+                                    <span t-esc="'{:.2f}'.format(partner['5'])"  />
+                                </td>
+                                <td align="center">
+                                    <span t-esc="'{:.2f}'.format(partner['4'])"  />
+                                </td>
+                                <td align="center">
+                                    <span t-esc="'{:.2f}'.format(partner['3'])"  />
+                                </td>
+                                <td align="center">
+                                    <span t-esc="'{:.2f}'.format(partner['2'])"  />
+                                </td>
+                                <td align="center">
+                                    <span t-esc="'{:.2f}'.format(partner['1'])"  />
+                                </td>
+                                <td align="center">
+                                    <span t-esc="'{:.2f}'.format(partner['0'])"  />
+                                </td>
+                                <td align="center">
+                                    <span t-esc="'{:.2f}'.format(partner['total'])"  />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <t t-foreach="get_partner_lines" t-as="partner">
+                    <b><span t-esc="partner['name']"/></b>
+                    <table class="table table-sm table-reports">
+                        <thead>
+                            <tr style="background-color: #f5f5f5;">
+<!--                                <th>Partner</th>-->
+                                <th  style="width:11%;text-align: center;"><span><b>Not due</b></span></th>
+                                <th  style="width:11%;text-align: center;"><b><span t-esc="data['6']['name']"/></b></th>
+                                <th  style="width:11%;text-align: center;"><b><span t-esc="data['5']['name']"/></b></th>
+                                <th  style="width:11%;text-align: center;"><b><span t-esc="data['4']['name']"/></b></th>
+                                <th  style="width:11%;text-align: center;"><b><span t-esc="data['3']['name']"/></b></th>
+                                <th  style="width:11%;text-align: center;"><b><span t-esc="data['2']['name']"/></b></th>
+                                <th  style="width:11%;text-align: center;"><b><span t-esc="data['1']['name']"/></b></th>
+                                <th  style="width:11%;text-align: center;"><b><span t-esc="data['0']['name']"/></b></th>
+                                <th  style="width:11%;text-align: center;"><b>Total</b></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+<!--                            <tr >-->
+<!--&lt;!&ndash;                                <td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <span t-esc="partner['name']"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--                                <td align="center">-->
+<!--                                    <span t-esc="partner['direction']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                </td>-->
+<!--                                <td align="center">-->
+<!--                                    <span t-esc="partner['6']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                </td>-->
+<!--                                <td align="center">-->
+<!--                                    <span t-esc="partner['5']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                </td>-->
+<!--                                <td align="center">-->
+<!--                                    <span t-esc="partner['4']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                </td>-->
+<!--                                <td align="center">-->
+<!--                                    <span t-esc="partner['3']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                </td>-->
+<!--                                <td align="center">-->
+<!--                                    <span t-esc="partner['2']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                </td>-->
+<!--                                <td align="center">-->
+<!--                                    <span t-esc="partner['1']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                </td>-->
+<!--                                <td align="center">-->
+<!--                                    <span t-esc="partner['0']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                </td>-->
+<!--                                <td align="center">-->
+<!--                                    <span t-esc="partner['total']" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+
+
+<!--                          REMOVE CURRENCY  -->
+
+
+                             <tr >
+<!--                                <td>-->
+<!--                                    <span t-esc="partner['name']"/>-->
+<!--                                </td>-->
+                                <td align="center">
+                                    <span t-esc="'{:.2f}'.format(partner['direction'])" />
+                                </td>
+                                <td align="center">
+                                    <span t-esc="'{:.2f}'.format(partner['6'])"/>
+                                </td>
+                                <td align="center">
+                                    <span t-esc="'{:.2f}'.format(partner['5'])" />
+                                </td>
+                                <td align="center">
+                                    <span t-esc="'{:.2f}'.format(partner['4'])" />
+                                </td>
+                                <td align="center">
+                                    <span t-esc="'{:.2f}'.format(partner['3'])" />
+                                </td>
+                                <td align="center">
+                                    <span t-esc="'{:.2f}'.format(partner['2'])" />
+                                </td>
+                                <td align="center">
+                                    <span t-esc="'{:.2f}'.format(partner['1'])" />
+                                </td>
+                                <td align="center">
+                                    <span t-esc="'{:.2f}'.format(partner['0'])" />
+                                </td>
+                                <td align="center">
+                                    <span t-esc="'{:.2f}'.format(partner['total'])" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table><br/>
+
+                    <table class="table table-sm table-reports">
+                        <thead>
+                            <tr style="background-color: #b5bec4;">
+                                <th style="width:14;text-align: center;"><span><b>Inv Date</b></span></th>
+                                <th style="width:14;text-align: center;"><span><b>Inv No</b></span></th>
+                                <th style="width:14;text-align: center;"><span><b>Journal</b></span></th>
+                                <th style="width:14;text-align: center;"><span><b>Due Date</b></span></th>
+                                <th style="width:14;text-align: center;"><span><b>OD Days</b></span></th>
+                                <th style="width:14;text-align: center;"><span><b>Original</b></span></th>
+                                <th style="width:14;text-align: center;"><span><b>Residual</b></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="result_total" t-value="0"/>
+                            <t t-set="residual_total" t-value="0"/>
+                            <t t-if="partner['payment_followp']">
+                                <tr t-foreach="partner['payment_followp']" t-as="inv">
+                                    <td align="center"><span t-esc="inv['date']"/></td>
+                                    <td align="center"><span t-esc="inv['move_name']"/></td>
+                                    <td align="center"><span t-esc="inv['journal']"/></td>
+                                    <td align="center"><span t-esc="inv['date_maturity']"/></td>
+                                    <td align="center"><span t-esc="inv['od_days']"/></td>
+                                    <td align="center"><span t-esc="inv['result']"/></td>
+                                    <td align="center"><span t-esc="inv['amount_residual']"/></td>
+                                    <t t-set="result_total" t-value="result_total + inv['result']"/>
+                                    <t t-set="residual_total" t-value="residual_total + inv['amount_residual']"/>
+                                </tr>
+                            </t>
+                                <tr style="background-color: #b5bec4;">
+                                    <td colspan="5" style="width:16;text-align: center;"><span><b>Customer Total</b></span></td>
+                                    <td colspan="" style="width:16;text-align: center;"><b><span t-esc="result_total"/></b></td>
+                                    <td colspan="" style="width:16;text-align: center;"><b><span t-esc="residual_total"/></b></td>
+                                </tr>
+                        </tbody>
+                    </table>
+                    <br/><br/>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.module.category" id="module_category_incentive">
+        <field name="name">Incentive</field>
+        <field name="description">Incentive Calculations</field>
+        <field name="sequence">3</field>
+    </record>
+
+    <record id="group_incentive_user" model="res.groups">
+        <field name="name">Incentive User</field>
+        <field name="category_id" ref="module_category_incentive"/>
+    </record>
+
+    <record id="group_incentive_admin" model="res.groups">
+        <field name="name">Incentive Administrator</field>
+        <field name="category_id" ref="module_category_incentive"/>
+        <field name="implied_ids" eval="[(4, ref('group_incentive_user'))]"/>
+    </record>
+
+</odoo>

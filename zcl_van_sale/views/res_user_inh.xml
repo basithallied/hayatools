@@ -1,0 +1,30 @@
+<odoo>
+
+    <record id="action_picking_tree_internal" model="ir.actions.act_window">
+        <field name="name">Internal Transfers</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">list,kanban,form,calendar</field>
+        <field name="domain"></field>
+        <field name="context">{'contact_display': 'partner_address', 'restricted_picking_type_code': 'internal', 'search_default_internal': 1}</field>
+<!--        <field name="search_view_id" ref="view_picking_internal_search"/>-->
+    </record>
+
+
+    <record id="inherit_res_users_form" model="ir.ui.view">
+        <field name="name">res.users</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='account_security']" position="after">
+                <page string="Inventory" invisible="not id">
+                    <group>
+                        <group>
+                            <field name="is_van_user" />
+                            <field name="allowed_location" invisible="not is_van_user" required="is_van_user"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

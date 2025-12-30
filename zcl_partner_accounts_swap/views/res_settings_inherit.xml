@@ -1,0 +1,50 @@
+<odoo>
+    <record id="view_res_config_settings_inherit" model="ir.ui.view">
+        <field name="name">res.config.settings.inherit.pay.receive.account</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <app name="account" position="inside">
+                <div class="app_settings_block" string="Custom Settings">
+                    <h2>Customers Payable and Receivable Account</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-6 d-flex align-items-center">
+                            <label for="customer_receive_account" class="me-2" string="Receivable Account"/>
+                            <field name="customer_receive_account" widget="many2one" />
+                        </div>
+                        <div class="col-6 d-flex align-items-center">
+                            <label for="customer_payable_account" class="me-2" string="Payable Account"/>
+                            <field name="customer_payable_account" widget="many2one"/>
+                        </div>
+                    </div>
+                    <div class="app_settings_block" string="Custom Settings">
+                        <h2>Vendors Payable and Receivable Account</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-6 d-flex align-items-center">
+                                <label for="vendor_receive_account" class="me-2" string="Receivable Account"/>
+                                <field name="vendor_receive_account" widget="many2one" />
+                            </div>
+                            <div class="col-6 d-flex align-items-center">
+                                <label for="vendor_payable_account" class="me-2" string="Payable Account"/>
+                                <field name="vendor_payable_account" widget="many2one" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app_settings_block" string="Custom Settings">
+                        <h2>Others Payable and Receivable Account</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-6 d-flex align-items-center">
+                                <label for="other_receive_account" class="me-2" string="Receivable Account"/>
+                                <field name="other_receive_account" widget="many2one" />
+                            </div>
+                            <div class="col-6 d-flex align-items-center">
+                                <label for="other_payable_account" class="me-2" string="Payable Account"/>
+                                <field name="other_payable_account" widget="many2one"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </app>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,9 @@
+<odoo>
+    <record id="seq_salesperson_incentive" model="ir.sequence">
+        <field name="name">Salesperson Incentive</field>
+        <field name="code">salesperson.incentive</field>
+        <field name="prefix">INC/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

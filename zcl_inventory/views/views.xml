@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Enable expiration dates for lots/serials -->
+        <record id="stock_config_expiration" model="ir.config_parameter">
+            <field name="key">stock.production_lot.auto_expiration</field>
+            <field name="value">True</field>
+        </record>
+    </data>
+</odoo>

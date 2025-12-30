@@ -1,0 +1,37 @@
+<odoo>
+    <data>
+        <!-- Define menu items and actions here -->
+        <menuitem id="menu_finance_entries_accounting_journalss" name="Journals" parent="account.menu_finance"
+                  sequence="8">
+            <menuitem id="menu_action_account_moves_journal_sales_customs"
+                      action="account.action_account_moves_journal_sales" groups="account.group_account_readonly"
+                      sequence="1"/>
+            <menuitem id="menu_action_account_moves_journal_purchases_customs"
+                      action="account.action_account_moves_journal_purchase" groups="account.group_account_readonly"
+                      sequence="2"/>
+            <menuitem id="menu_action_account_moves_journal_banks_cash_customs"
+                      action="account.action_account_moves_journal_bank_cash" groups="account.group_account_readonly"
+                      sequence="3"/>
+            <menuitem id="menu_action_account_moves_journal_misc_customs"
+                      action="account.action_account_moves_journal_misc" groups="account.group_account_readonly"
+                      sequence="4"/>
+        </menuitem>
+        <menuitem id="menu_finance_entries_accounting_id" name="Manual Journal Entries" parent="account.menu_finance"
+                  sequence="11">
+            <menuitem id="menu_actions_account_moves_journals_custom" action="zcl_invoice.action_move_journal_lines_id"
+                      groups="account.group_account_readonly" sequence="1"/>
+        </menuitem>
+
+        <record model="ir.ui.menu" id="account.menu_action_account_payments_receivable">
+            <field name="name">Receipt</field>
+        </record>
+
+        <menuitem id="menu_sales_purchase_register_report"
+                  name="Sales and Purchase Register"
+                  parent="account.menu_finance_reports"
+                  action="action_sale_purchase_register_wizard"
+                  sequence="16"/>
+
+
+    </data>
+</odoo>

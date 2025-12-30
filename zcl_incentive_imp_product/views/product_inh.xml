@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_product_template_form_arabic_name" model="ir.ui.view">
+        <field name="name">product.template.form.arabic.name</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//label[@for='weight']" position="before">
+                <field name="is_import" string="import product"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

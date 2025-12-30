@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_expense.menu_hr_expense_root" model="ir.ui.menu">
+        <field name="name">Reimbursements</field>
+    </record>
+
+</odoo>

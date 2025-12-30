@@ -1,0 +1,50 @@
+<odoo>
+    <record id="res_partner_inherit_form" model="ir.ui.view">
+        <field name="name">res.partner.form.inherited</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="customer_and_vendor_true" invisible="1"/>
+                <field name="customer_rank" invisible="1"/>
+                <field name="supplier_rank" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='credit']" position="after">
+                <field name="debit"/>
+            </xpath>
+            <xpath expr="//field[@name='property_account_payable_id']" position="after">
+                <field name="pay_receive_account" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="cr_number"/>
+                <field name="customer_code"/>
+                <field name="supplier_code"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_inherit_followup_form_ext" model="ir.ui.view">
+        <field name="name">res.partner.followup.form.inherit.test.button</field>
+        <field name="inherit_id" ref="om_account_followup.view_partner_inherit_followup_form"/>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='followup_button']" position="inside">
+                <button name="action_test_button" type="object"
+                        string="Overdue Report"
+                        class="oe_highlight"
+                        groups="account.group_account_user"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_inherit_followup_form_inherit" model="ir.ui.view">
+        <field name="name">view.partner.inherit.followup.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="om_account_followup.view_partner_inherit_followup_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='unreconciled_aml_ids']/list" position="inside">
+                <field name="overdue_by_days" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

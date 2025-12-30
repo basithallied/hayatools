@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sale_purchase_register_wizard" model="ir.ui.view">
+        <field name="name">sale.purchase.register.wizard.form</field>
+        <field name="model">sale.purchase.register.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Sale Purchase Register Wizard">
+                <group>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                    <field name="register_type" widget="radio"/>
+                    <field name="journal_id"/>
+                </group>
+                <footer>
+                    <button name="action_print_sale_purchase_register" string="Sale Purchase Register Report" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sale_purchase_register_wizard" model="ir.actions.act_window">
+        <field name="name">Sale Purchase Register Wizard</field>
+        <field name="res_model">sale.purchase.register.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

@@ -1,0 +1,151 @@
+<odoo>
+    <template id="report_zcl_customer_overdue">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div style="padding: 20px; font-family: Arial, sans-serif; page-break-inside: avoid;">
+                    <div style="width: 50%; float: left;">
+                        <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)"
+                             style="width: 40%;"/>
+                        <div style="margin-top: 10px; font-size: 14px;">
+                            <p style="margin: 0; font-weight: bold;">
+                                <t t-esc="o.complete_name"/>
+                            </p>
+                            <p style="margin: 0;">
+                                <t t-esc="o.street or ''"/>
+                                <t t-if="o.street2">,
+                                    <t t-esc="o.street2"/>
+                                </t>
+                            </p>
+                            <p style="margin: 0;">
+                                <t t-esc="o.city or ''"/>
+                                <t t-if="o.state_id">,
+                                    <t t-esc="o.state_id.name"/>
+                                </t>
+                                <t t-if="o.zip">,
+                                    <t t-esc="o.zip"/>
+                                </t>
+                            </p>
+                            <p style="margin: 0;">
+                                <t t-esc="o.country_id.name or ''"/>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="width: 50%; float: right; text-align: right;">
+                        <p style="margin: 0; font-weight: bold;">
+                            <t t-esc="res_company.name"/>
+                        </p>
+                        <p style="margin: 0;">
+                            <t t-esc="res_company.street or ''"/>
+                            <t t-if="res_company.street2">,
+                                <t t-esc="res_company.street2"/>
+                            </t>
+                        </p>
+                        <p style="margin: 0;">
+                            <t t-esc="res_company.city or ''"/>
+                            <t t-if="res_company.state_id">,
+                                <t t-esc="res_company.state_id.name"/>
+                            </t>
+                            <t t-if="res_company.zip">,
+                                <t t-esc="res_company.zip"/>
+                            </t>
+                        </p>
+                        <p style="margin: 0;">
+                            <t t-esc="res_company.country_id.name or ''"/>
+                        </p>
+                    </div>
+                    <div style="margin-bottom: 170px;"></div>
+
+
+                    <table class="table table-bordered" style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%; text-align: left; padding: 10px; border: 1px solid #000;">Date
+                                </th>
+                                <th style="width: 40%; text-align: left; padding: 10px; border: 1px solid #000;">Journal
+                                    Entry
+                                </th>
+                                <th style="width: 20%; text-align: right; padding: 10px; border: 1px solid #000;">Due
+                                    Date
+                                </th>
+                                <th style="width: 20%; text-align: right; padding: 10px; border: 1px solid #000;">
+                                    Total
+                                </th>
+                                <th style="width: 15%; text-align: center; padding: 10px; border: 1px solid #000;">
+                                    Overdue By (Days)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="o.unreconciled_aml_ids" t-as="line">
+                                <tr>
+                                    <td style="text-align: left; padding: 8px; border: 1px solid #000; font-size: 16px;">
+                                        <span t-esc="line.date.strftime('%d/%m/%y')"/>
+                                    </td>
+                                    <td style="text-align: left; padding: 8px; border: 1px solid #000; font-size: 16px;">
+                                        <span t-esc="line.name"/>
+                                    </td>
+                                    <td style="text-align: center; padding: 8px; border: 1px solid #000; font-size: 16px;">
+                                        <span t-esc="line.date_maturity.strftime('%d/%m/%y')"/>
+                                    </td>
+                                    <td style="text-align: right; padding: 8px; border: 1px solid #000; font-size: 16px;">
+                                        <span t-esc="line.result"/>
+                                    </td>
+                                    <td style="text-align: center; padding: 8px; border: 1px solid #000; font-size: 16px;">
+                                        <t t-set="today" t-value="datetime.date.today()"/>
+                                        <t t-if="line.date_maturity">
+                                            <t t-set="overdue_days" t-value="(today - line.date_maturity).days"/>
+                                            <t t-esc="overdue_days if overdue_days > 0 else 0"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+
+                    <div style="margin-top: 20px; font-size: 18px; font-weight: bold; float: right;">
+                        Total Amount:
+                        <span t-esc="'{:,.3f}'.format(sum(o.unreconciled_aml_ids.mapped('result')))"/>
+                    </div>
+
+
+                    <div style="clear: both;"></div>
+                    <div style="margin-bottom: 280px;"></div>
+
+
+                    <div style="margin-top: 50px; padding-top: 10px; border-top: 2px solid #000; text-align: center; font-size: 12px;">
+                        <p style="margin: 0; font-weight: bold;">
+                            <t t-esc="res_company.name"/>
+                        </p>
+                        <p style="margin: 0;">
+                            <t t-esc="res_company.street or ''"/>
+                            <t t-if="res_company.street2">,
+                                <t t-esc="res_company.street2"/>
+                            </t>
+                        </p>
+                        <p style="margin: 0;">
+                            <t t-esc="res_company.city or ''"/>
+                            <t t-if="res_company.state_id">,
+                                <t t-esc="res_company.state_id.name"/>
+                            </t>
+                            <t t-if="res_company.zip">,
+                                <t t-esc="res_company.zip"/>
+                            </t>
+                        </p>
+                        <p style="margin: 0;">
+                            <t t-esc="res_company.country_id.name or ''"/>
+                        </p>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
+
+
+
+
+
+
+

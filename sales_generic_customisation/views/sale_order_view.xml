@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='sale_order_template_id']" position="after">
+                <field name="sale_type"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_uom_qty']" position="before">
+                <field name="expiration_date" string="Lot Expiry"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_uom_qty']" position="attributes">
+                <attribute name="sum"> Total Quantity</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/list/field[@name='price_unit']" position="attributes">
+                <attribute name="sum">Total Unit Price</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_template_id']" position="after">
+                <field name="internal_reference" string="Product Code"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_order_form_alert" model="ir.ui.view">
+        <field name="name">sale.order.form.alert</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-warning" invisible="not has_price_alert">
+                    <p>
+                        <strong>Warning:</strong> One or more products have a unit price lower than the cost price!
+                    </p>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

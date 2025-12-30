@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="custom_invoicess_seq" model="ir.sequence">
+        <field name="name">Custom Invoice Sequence</field>
+        <field name="code">account.custom.invoice</field>
+        <field name="prefix">EIN\HAYA\%(year)s\</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- Credit Note Sequence -->
+    <record id="custom_credit_note_seq" model="ir.sequence">
+        <field name="name">Custom Credit Note Sequence</field>
+        <field name="code">account.custom.refund</field>
+        <field name="prefix">CN\HAYA\%(year)s\</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

@@ -1,0 +1,31 @@
+<odoo>
+
+    <record id="view_product_template_form_arabic_name" model="ir.ui.view">
+        <field name="name">product.template.form.arabic.name</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='oe_title']" position="inside">
+                <div class="mt-2">
+                    <field name="arabic_name" class="text-break" style="width: 60%; font-size: 1.2rem;"  placeholder="Arabic Name"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+
+      <record id="view_product_category_property_form_inherit" model="ir.ui.view">
+            <field name="name">product.category.property.form.inherit</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="account.view_category_property_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='account_property']" position="inside">
+                    <group>
+                        <field name="inventory_gain_account_id"/>
+                        <field name="inventory_loss_account_id"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+</odoo>

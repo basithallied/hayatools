@@ -1,0 +1,14 @@
+<odoo>
+    <record id="view_res_partner_form_arabic_name" model="ir.ui.view">
+        <field name="name">res.partner.form.arabic.name</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="arabic_name"
+                       style="width: 60%; font-size: 1.2rem;"
+                       placeholder="Arabic Name"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

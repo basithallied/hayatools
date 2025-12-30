@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<!--    <record id="view_account_journal_form_inherit" model="ir.ui.view">-->
+<!--        <field name="name">account.journal.form.inherited</field>-->
+<!--        <field name="model">account.journal</field>-->
+<!--        <field name="inherit_id" ref="account.view_account_journal_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//notebook/page[@name='page_incoming_payments']/field[@name='inbound_payment_method_line_ids']/list/field[@name='payment_method_id']" position="replace">-->
+<!--                 <field name="payment_method_id" options="{'no_create': False, 'no_open': False}"/>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//notebook/page[@name='page_outgoing_payments']/field[@name='outbound_payment_method_line_ids']/list/field[@name='payment_method_id']" position="replace">-->
+<!--                 <field name="payment_method_id" options="{'no_create': False, 'no_open': False}"/>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--     </record>-->
+</odoo>

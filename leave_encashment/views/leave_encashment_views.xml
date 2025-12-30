@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_leave_encashment_form" model="ir.ui.view">
+        <field name="name">leave.encashment.form</field>
+        <field name="model">leave.encashment</field>
+        <field name="arch" type="xml">
+            <form string="Leave Encashment">
+                <header>
+                    <button name="action_submit" type="object" string="Submit"
+                              class="btn-success" invisible="state != 'draft'"/>
+                    <button name="action_approve" type="object" string="Approve"
+                              class="btn-primary" groups="hr.group_hr_user" invisible="state != 'submit'"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                              class="btn-secondary"/>
+                    <field name="state" widget="statusbar" options="{'clickable': False}"
+                              statusbar_visible="draft,submit,approved,cancel"/>
+               </header>
+                <sheet>
+                    <group>
+                    <group>
+                        <field name="employee_id" />
+                        <field name="department_id" />
+                        <field name="job_position" />
+                        <field name="date" />
+                    </group>
+                    <group>
+                        <field name="leave_type_id" />
+                        <field name="leave_pending" readonly="1" />
+                        <field name="leave_encash" />
+                        <field name="amount" />   
+                    </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_leave_encashment_list" model="ir.ui.view">
+        <field name="name">leave.encashment.list</field>
+        <field name="model">leave.encashment</field>
+        <field name="arch" type="xml">
+            <list string="Leave Encashments">
+                <field name="employee_id" />
+                <field name="date" />
+                <field name="leave_encash" />
+                <field name="leave_pending" readonly="1" />
+            </list>
+        </field>
+    </record>
+
+    <record id="action_leave_encashment" model="ir.actions.act_window">
+        <field name="name">Leave Encashment</field>
+        <field name="res_model">leave.encashment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

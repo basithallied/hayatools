@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Restricting Profit and Loss menu -->
+    <record id="accounting_pdf_reports.menu_account_report_pl" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [ref('zcl_financial_report_access.group_financial_report_access')])]"/>
+    </record>
+
+    <!-- Restricting Balance Sheet menu -->
+    <record id="accounting_pdf_reports.menu_account_report_bs" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [ref('zcl_financial_report_access.group_financial_report_access')])]"/>
+    </record>
+</odoo>

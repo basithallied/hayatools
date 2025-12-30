@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="action_report_cash_book_action" model="ir.actions.report">
+        <field name="name">Cash Book</field>
+        <field name="model">account.cashbook.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">zcl_cash_bank_report.report_cashbook_template</field>
+        <field name="report_file">zcl_cash_bank_report.report_cashbook_template</field>
+    </record>
+
+    <template id="report_cashbook_template">
+        <t t-call="web.html_container">
+            <t t-set="data_report_margin_top" t-value="12"/>
+            <t t-set="data_report_header_spacing" t-value="17"/>
+            <t t-set="data_report_dpi" t-value="110"/>
+            <t t-call="web.internal_layout">
+                <div class="page" style="padding-top:20px !important;">
+                    <h2>Account Cash Book</h2>
+                </div>
+                <div class="row mt32">
+                    <div class="col-6">
+                        <strong>Journals:</strong>
+                        <p t-esc="', '.join([ lt.name or '' for lt in journal_records ])"/>
+                    </div>
+
+                    <div class="col-3">
+                        <strong>Start Date:</strong>
+                        <p t-esc="date_from"/>
+                    </div>
+                    <div class="col-3">
+                        <strong>End Date:</strong>
+                        <p t-esc="date_to"/>
+                    </div>
+                </div>
+                <br/>
+                <table class="table table-sm table-reports" style="width:100%;">
+                    <thead>
+                        <tr class="text-center" style="background-color: #f5f5f5">
+                            <th>Date</th>
+                            <th>Journal</th>
+                            <th style="width:30%;white-space: nowrap;">Partner/Account Name</th>
+                            <th>Debit</th>
+                            <th>Credit</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="grouped_lines" t-as="account_group">
+                             <!-- Initial Balance Row -->
+                            <tr style="font-weight: bold;">
+                                <td colspan="2"/>
+                                <td>
+                                    Initial Balance - <t t-esc="account_group['account_code']"/> <t t-esc="account_group['account_name']"/>
+                                </td>
+                                <td class="text-end"> <span t-esc="account_group['initial_debit']"
+                                          t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/></td>
+                                <td class="text-end"><span t-esc="account_group['initial_credit']"
+                                          t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                </td>
+                                <td class="text-end">
+                                    <span t-esc="account_group['initial_balance']"
+                                          t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                </td>
+                            </tr>
+
+
+                            <t t-set="in_bal" t-value="account_group['initial_balance']"/>
+
+                            <tr t-foreach="account_group['lines']" t-as="line">
+                                <t t-set="in_bal" t-value="line['line_balance'] + in_bal"/>
+                                <td>
+                                    <t t-if="line['date']">
+                                        <span t-esc="line['date'].strftime('%d/%m/%Y')"/>
+                                    </t>
+                                </td>
+                                <td>
+                                    <span t-esc="line['journal']"/>
+                                </td>
+                                <td style="width:30%;white-space: nowrap;">
+                                    <t t-if="line.get('partner')">
+                                        <span t-esc="line['partner']"/>
+                                    </t>
+                                    <t t-else="">
+                                        <span t-esc="line['account']"/>
+                                    </t>
+                                    <br/>
+                                    <i>
+                                        <span t-esc="line['move_name']"/>
+                                    </i>
+                                </td>
+                                <td class="text-end">
+                                    <span t-esc="line['debit']"
+                                          t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                </td>
+                                <td class="text-end">
+                                    <span t-esc="line['credit']"
+                                          t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                </td>
+                                <td class="text-end">
+                                    <span t-esc="in_bal"
+                                          t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                </td>
+                            </tr>
+
+                            <!-- Subtotal per account -->
+                            <tr style="font-weight: bold; background-color: #f9f9f9;">
+                                <td colspan="2"/>
+                                <td>
+                                    <t t-esc="account_group['account_code']"/>
+                                    <t t-esc="account_group['account_name']"/>
+                                </td>
+                                <td class="text-end">
+                                    <span t-esc="account_group['debit']+account_group['initial_debit']"
+                                          t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                </td>
+                                <td class="text-end">
+                                    <span t-esc="account_group['credit'] + account_group['initial_credit']"
+                                          t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                </td>
+                                <td class="text-end">
+                                    <span t-esc="account_group['balance']+account_group['initial_balance']"
+                                          t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                </td>
+                            </tr>
+                        </t>
+
+                    </tbody>
+
+                </table>
+
+            </t>
+        </t>
+    </template>
+
+</odoo>

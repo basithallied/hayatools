@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_partnerledger_background">
+        <t t-call="web.html_container">
+            <link href="https://fonts.cdnfonts.com/css/alif" rel="stylesheet"/>
+            <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
+
+
+            <div class="page" style="padding-top:3px;">
+                <table>
+                    <tbody>
+                        <tr align="left">
+                            <span style="font-family:'Open Sans'; font-size:30px;white-space:nowrap;">Partner Ledger
+                            </span>
+                            <br/>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="content">
+
+
+                    <div style="width: 100%; overflow: hidden; font-family: 'Open Sans';">
+                        <!-- Left-aligned content -->
+                        <div style="float: left; width: 50%; text-align: left; margin-top:25px;">
+                            <strong t-esc="partner.name"/>
+                            <br/>
+
+                            <t t-if="partner.street">
+                                <span t-esc="partner.street"/>
+                                <br/>
+                            </t>
+                            <t t-if="partner.street2">
+                                <span t-esc="partner.street2"/>
+                                <br/>
+                            </t>
+                            <t t-if="partner.city">
+                                <span t-esc="partner.city"/>
+                                <br/>
+                            </t>
+                            <t t-if="partner.state_id.name">
+                                <span t-esc="partner.state_id.name"/>
+                                <br/>
+                            </t>
+                            <t t-if="partner.country_id.name">
+                                <span t-esc="partner.country_id.name"/>
+                                <br/>
+                            </t>
+                        </div>
+                        <!--                                        <t t-foreach="docs" t-as="o">-->
+
+
+                        <!-- Right-aligned content -->
+                        <div style="float: right; width: 50%; text-align: right;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <!--                         <t t-foreach="lines(data, o)" t-as="line">-->
+                                <t t-set="company" t-value="env.company"/>
+                                <!-- Account Summary Header -->
+                                <tr style="background-color: #d3d3d3;">
+                                    <td colspan="2"
+                                        style="font-size: 16px; text-align:left; font-weight: bold; padding: 5px;">
+                                        Account Summary
+                                    </td>
+                                </tr>
+
+                                <!-- Spacing between sections -->
+                                <div style="height: 20px;"></div>
+
+                                <!-- Opening Balance -->
+
+                                <tr>
+                                    <td style="white-space: text-nowrap; font-size:14px; text-align:left; padding: 12px;">
+                                        Opening Balance:
+                                    </td>
+                                    <td style="font-size:14px; text-align:right; ">
+                                        <span t-esc="company.currency_id.name"/>
+                                        <span t-esc="'{0:,.2f}'.format(opening_balance)"/>
+
+                                    </td>
+
+                                </tr>
+<!--                                <tr>-->
+<!--                                    <td style="white-space: text-nowrap; font-size:14px; text-align:left; padding: 12px;">-->
+<!--                                        Invoiced Amount:-->
+<!--                                    </td>-->
+<!--                                    <td style="font-size:14px; text-align:right; ">-->
+<!--                                        <t t-set="total_invoiced_amount" t-value="0"/>-->
+<!--                                        <t t-foreach="lines(data, partner)" t-as="amt">-->
+<!--                                            <t t-set="total_invoiced_amount"-->
+<!--                                               t-value="total_invoiced_amount + amt['amount_total']"/>-->
+<!--                                        </t>-->
+<!--                                        <span t-esc="company.currency_id.name"/>-->
+
+<!--                                        <span t-esc="'{0:,.2f}'.format(total_invoiced_amount)"/>-->
+
+
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td style="white-space: text-nowrap; font-size:14px; text-align:left; padding: 12px;">-->
+<!--                                        Amount Paid:-->
+<!--                                    </td>-->
+<!--                                    <td style="font-size:14px; text-align:right; ">-->
+<!--                                        <t t-set="total_paid_amount" t-value="0"/>-->
+<!--                                        <t t-foreach="lines(data, partner)" t-as="amt">-->
+<!--                                            <t t-set="total_paid_amount"-->
+<!--                                               t-value="total_paid_amount + amt['paid_amount']"/>-->
+<!--                                        </t>-->
+<!--                                        <span t-esc="company.currency_id.name"/>-->
+<!--                                        <span t-esc="'{0:,.2f}'.format(total_paid_amount)"/>-->
+
+
+<!--                                    </td>-->
+<!--                                </tr>-->
+                                <tr>
+                                    <td colspan="2" style="border-bottom: 1px solid #000;"></td>
+                                </tr>
+
+
+                            </table>
+                            <p style="font-size: 13px; margin-top: 5px;">
+                                <t t-if="data['form']['date_from']">
+                                    <span t-esc="data['form']['date_from']"/>
+                                    <span>To</span>
+                                    <span t-esc="data['form']['date_to']"/>
+                                </t>
+                            </p>
+                        </div>
+                        <!--                                        </t>-->
+
+                    </div>
+                    <!--                    </t>-->
+                    <!--                                <t t-foreach="docs" t-as="o">-->
+
+
+                    <table class="table table-sm table-reports">
+                        <t t-if="docs">
+
+                            <thead>
+                                <tr align="center"
+                                    style="width:80%; font-family: 'Open Sans'; background-color:#2f3236;color:white; border:3px solid #2f3236; font-size:13px; height:10px;">
+
+                                    <th style="width:8%; color:white; padding:5px;">Date</th>
+                                    <!--                            <th style="width:15%; color:white; padding:5px;">PO</th>-->
+                                    <!--                            <th>Transactions</th>-->
+                                    <th style="color:white; padding:5px;">JRNL</th>
+                                    <th style="color:white; padding:5px;">Account</th>
+                                    <th style="color:white; padding:5px;">Ref</th>
+<!--                                    <th style="color:white; padding:5px;">Amount</th>-->
+<!--                                    <th style="color:white; padding:5px;">Payment</th>-->
+                                    <th style="color:white; padding:5px;">Debit</th>
+                                    <th style="color:white; padding:5px;">Credit</th>
+                                    <th style="color:white; padding:5px;">Balance</th>
+                                </tr>
+                            </thead>
+                            <t t-set="row_count" t-value="0"/>
+
+                            <t t-foreach="docs" t-as="o">
+                                <tbody>
+                                    <tr>
+                                    <td colspan="7">
+                                        <strong t-esc="o.ref"/>
+                                        -
+                                        <strong t-esc="o.name"/>
+                                    </td>
+<!--                                    <td >-->
+<!--                                        <strong t-esc="sum_partner(data, o, 'debit')"-->
+<!--                                                t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                    </td>-->
+<!--                                    <td >-->
+<!--                                        <strong t-esc="sum_partner(data, o, 'credit')"-->
+<!--                                                t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                    </td>-->
+<!--                                    <td >-->
+<!--                                        <strong t-esc="sum_partner(data, o, 'debit - credit')"-->
+<!--                                                t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>-->
+<!--                                    </td>-->
+                                </tr>
+                                    <tr style="border-bottom: 1px solid grey !important; font-size:12px;">
+                                        <td style="white-space:nowrap;  #B0B0B0 !important;" colspan="1">
+                                            <strong t-esc="data['form']['date_from']"/>
+                                        </td>
+                                        <td style="border-bottom: 1px solid #B0B0B0 !important;">
+
+                                        </td>
+                                        <td style="white-space:nowrap;  #B0B0B0 !important;" colspan="1">
+                                            <span>***Opening
+                                                Balance***
+                                            </span>
+                                        </td>
+
+                                        <td style="font-size:12px; text-align:right; !important;">
+                                            <span t-esc="company.currency_id.name"/>
+
+                                            <span t-esc="'{0:,.2f}'.format(opening_balance)"/>
+                                            <!--                                        <span t-esc="total_opening_amount"/>-->
+
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <t t-set="running_balance" t-value="opening_balance"/>
+                                    <tr style="border-bottom:2pt solid grey; font-size:12px;" t-foreach="lines(data, o)"
+                                        t-as="line">
+                                        <t t-set="row_count" t-value="row_count + 1"/> <!-- Increment row count -->
+
+                                        <td>
+                                            <span t-esc="line['date']"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="line['j_code'] "/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="line['a_name'].get(env.lang, '')"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="line['displayed_name']"/>
+                                        </td>
+
+<!--                                        <td>-->
+<!--                                            <span t-esc="'{0:,.2f}'.format(line['amount_total'])"/>-->
+
+
+<!--                                        </td>-->
+
+                                        <!-- Column 3: Paid Amount -->
+<!--                                        <td>-->
+<!--                                            <span t-esc="'{0:,.2f}'.format(line['paid_amount'])"/>-->
+<!--                                            <br/>-->
+<!--                                            <t t-if="line['payment_state'] != 'not_paid'">-->
+<!--                                                <span style="color:grey;font-size:10px;text-align: center;"-->
+<!--                                                      t-esc="line['payment_type']"/>-->
+<!--                                                &lt;!&ndash;                                        <t t-if="line['payment_type'] == 'PDC' and line['pdc_date']">&ndash;&gt;-->
+<!--                                                &lt;!&ndash;                                            <span style="color:grey;font-size:10px;text-align: center;" t-esc="line['pdc_date'].strftime('%d/%m/%Y') if line.get('pdc_date') else ''"/>&ndash;&gt;-->
+<!--                                                &lt;!&ndash;                                        </t>&ndash;&gt;-->
+<!--                                                <t>-->
+<!--                                                    <span style="color:grey;font-size:10px;text-align: center;"-->
+<!--                                                          t-esc="line['payment_date'].strftime('%d/%m/%Y') if line.get('payment_date') else ''"/>-->
+<!--                                                    &lt;!&ndash;                                            <span t-field="o.scheduled_date" t-options='{"format": "dd MMM yyyy"}'&ndash;&gt;-->
+<!--                                                    &lt;!&ndash;                                          style="padding-left:70px;"/>&ndash;&gt;-->
+<!--                                                </t>-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+                                        <td>
+                                            <span t-esc="line['debit']"/>
+                                            <span t-esc="company.currency_id.name"/>
+
+                                        </td>
+                                        <td>
+                                            <span t-esc="line['credit']" />
+                                            <span t-esc="company.currency_id.name"/>
+
+                                        </td>
+
+                                        <td style="text-align: right; border-bottom: 1px solid #B0B0B0 !important;">
+                                            <t t-set="balance"
+                                               t-value="(running_balance + (line['debit']-line['credit']))"/>
+                                            <span t-esc="'{0:,.2f}'.format(balance)"/>
+                                            <t t-set="running_balance" t-value="balance"/>
+                                        </td>
+
+                                        <!--                                        <td style="text-align: right; border-bottom: 1px solid #B0B0B0 !important;">-->
+<!--                                            <t t-set="balance"-->
+<!--                                               t-value="(running_balance + line['progress']) "/>-->
+<!--                                            <span t-esc="'{0:,.2f}'.format(balance)"/>-->
+<!--                                            <t t-set="running_balance" t-value="balance"/>-->
+<!--                                        </td>-->
+
+
+                                        <!-- Column 4: Amount Residual -->
+                                        <!--                                <td >-->
+                                        <!--                                    <t t-set="balance" t-value="( line['debit']) - line['credit']"/>-->
+                                        <!--                                    <span t-esc="'{0:,.2f}'.format(balance)"/>-->
+                                        <!--                                </td>-->
+
+                                    </tr>
+
+
+                                    <tr style="font-size:12px;">
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                </tbody>
+                            </t>
+                        </t>
+                        <!--                    </t>-->
+                    </table>
+                    <t t-if="docs">
+
+                        <t t-if="row_count >= 7">
+                            <t t-set="row_count" t-value="0"/>
+                            <tr>
+                                <td colspan="6">
+                                    <div style="page-break-after: always;"></div>
+                                </td>
+                            </tr>
+                        </t>
+                    </t>
+
+
+                    <!--                    </table>-->
+                    <br/>
+                    <br/>
+
+                    <br/>
+                    <br/>
+
+                    <br/>
+
+
+                    <br/>
+                    <br/>
+                    <br/>
+                    <!--                                </t>-->
+                </div>
+
+            </div>
+
+        </t>
+    </template>
+</odoo>
+
+
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+        <record id="view_account_payment_form_inh" model="ir.ui.view">
+        <field name="name">account.payment.view.form.inherit</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath  expr="//sheet/div[hasclass('oe_button_box')]"  position="inside">
+                <button name="button_open_pdc_entry" type="object" class="oe_stat_button" icon="fa-bars" invisible="not pdc_journal" groups="account.group_account_user,account.group_account_readonly">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">PDC Entry</span>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//form/header" position="inside">
+                <button name="action_pdc_clear" string="PDC clear" type="object"  invisible="state not in ['paid','in_process'] or not is_pdc or pdc_journal"/>
+            </xpath>
+             <xpath expr="//field[@name='payment_type']" position="after">
+                 <field name="is_pdc"  class="oe_inline" readonly="state != 'draft'"/>
+                 <field name="pdc_journal" invisible="1"/>
+             </xpath>
+             <xpath expr="//field[@name='partner_bank_id']" position="after">
+                 <field name="cheque_no"  class="oe_inline" readonly="state != 'draft'" invisible="not is_pdc"/>
+                 <field name="cheque_date"  class="oe_inline" readonly="state != 'draft'" invisible="not is_pdc"/>
+             </xpath>
+        </field>
+    </record>
+</odoo>

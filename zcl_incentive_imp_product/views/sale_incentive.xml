@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_salesperson_incentive_form" model="ir.ui.view">
+    <field name="name">salesperson.incentive.form</field>
+    <field name="model">salesperson.incentive</field>
+    <field name="arch" type="xml">
+        <form string="Salesperson Incentive" class="o_form_full">
+            <header>
+                <button name="action_calculate_lines" type="object" string="Recalculate"
+                            invisible="state != 'draft'"/>
+                <button name="action_approve" type="object" string="Approve" invisible="state != 'draft'"/>
+                <button name="action_post_to_accounting"  string="Send to Accounting" type="object"  invisible="state != 'approved'" class="btn-primary"  groups="account.group_account_user,account.group_account_readonly"/>
+                <field name="state" widget="statusbar"/>
+            </header>
+
+            <sheet>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" readonly="1" placeholder="Draft"/>
+                    </h1>
+                </div>
+
+                <div class="oe_button_box" name="button_box">
+                     <button name="button_open_journal_entry" type="object" class="oe_stat_button" icon="fa-bars" invisible="not move_id" groups="account.group_account_user,account.group_account_readonly">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Journal Entry</span>
+                        </div>
+                     </button>
+<!--                    <field name="move_id" widget="handle" invisible="not move_id"/>-->
+                </div>
+
+
+
+                <group string="Incentive Information" colspan="4">
+                    <group col="4">
+                        <field name="salesperson_id"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="percentage"/>
+                    </group>
+                    <group col="4">
+                        <field name="target_amount"/>
+                        <field name="sale_amount" readonly="1"/>
+                        <field name="amount" readonly="state == 'posted'"/>
+                    </group>
+                </group>
+
+                <group string="Accounting Info" invisible="state == 'draft'">
+                    <group col="4">
+                        <field name="journal_id" required="state != 'draft'"/>
+                        <field name="debit_account_id" required="state != 'draft'"/>
+                        <field name="credit_account_id" required="state != 'draft'"/>
+                    </group>
+                </group>
+
+                <notebook>
+                    <page string="Incentive Lines">
+                        <field name="line_ids" readonly="1">
+                            <list editable="bottom">
+                                <field name="product_id"/>
+                                <field name="order_id"/>
+                                <field name="date_order"/>
+                                <field name="price_subtotal" sum="Total Sales"/>
+                                <field name="incentive_percent"/>
+                                <field name="total" sum="Total Incentive"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+    <record id="view_salesperson_incentive_tree" model="ir.ui.view">
+        <field name="name">salesperson.incentive.tree</field>
+        <field name="model">salesperson.incentive</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="salesperson_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="percentage"/>
+                <field name="amount"/>
+                <field name="state" decoration-info="state == 'approved'"
+                       decoration-success="state == 'posted'" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_salesperson_incentive" model="ir.actions.act_window">
+        <field name="name">Salesperson Incentives</field>
+        <field name="res_model">salesperson.incentive</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_incentive_root" name="Incentives" sequence="35" parent="sale.sale_menu_root"/>
+    <menuitem id="menu_incentive" name="Salesperson Incentives" parent="menu_incentive_root"
+              action="action_salesperson_incentive"/>
+
+</odoo>

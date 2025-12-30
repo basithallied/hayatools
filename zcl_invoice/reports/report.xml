@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_customer_invoice_report" model="ir.actions.report">
+        <field name="name">Customer Invoice report custom</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">zcl_invoice.report_zcl_customer_invoice</field>
+        <field name="report_file">zcl_invoice.report_zcl_customer_invoice</field>
+        <field name="paperformat_id" ref="zcl_invoice.hya_blank_report_paper_rep"/>
+
+        <field name="binding_model_id" ref="model_account_move"/>
+        <field name="binding_type">report</field>
+    </record>
+
+
+      <record id="action_customer_invoice_with_header" model="ir.actions.report">
+            <field name="name">Invoice Preview </field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">zcl_invoice.arabic_english_invoice_with_header</field>
+            <field name="report_file">zcl_invoice.arabic_english_invoice_with_header</field>
+            <field name="print_report_name">(object._get_report_base_filename())</field>
+            <field name="attachment"/>
+            <field name="binding_model_id" ref="model_account_move"/>
+            <field name="binding_type">report</field>
+            <field name="domain" eval="[('move_type', '!=', 'entry')]"/>
+        </record>
+
+
+    <record id="action_customer_overdue_custom_report" model="ir.actions.report">
+        <field name="name">Customer Overdue report custom</field>
+        <field name="model">res.partner</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">zcl_invoice.report_zcl_customer_overdue</field>
+        <field name="report_file">zcl_invoice.report_zcl_customer_overdue</field>
+        <field name="paperformat_id" ref="zcl_invoice.hya_overdue_report_paper_rep"/>
+
+        <field name="binding_model_id" ref="model_res_partner"/>
+        <field name="binding_type">report</field>
+    </record>
+
+
+    <record id="action_sale_purchase_register_report_new" model="ir.actions.report">
+        <field name="name">Sale Purchase Register Report</field>
+        <field name="model">sale.purchase.register.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">zcl_invoice.report_zcl_sale_purchase_register</field>
+        <field name="report_file">zcl_invoice.report_zcl_sale_purchase_register</field>
+        <field name="paperformat_id" ref="zcl_invoice.hya_sale_pur_reg_report_paper_rep"/>
+
+        <field name="binding_model_id" ref="model_sale_purchase_register_wizard"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

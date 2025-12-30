@@ -1,0 +1,8 @@
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<odoo>
+    <record id="stock_expiration_dates_serial_numbers_inherit" model="ir.config_parameter">
+        <field name="key">stock.expiration_dates_serial_numbers_inherit</field>
+        <field name="value">True</field>
+    </record>
+
+</odoo>
