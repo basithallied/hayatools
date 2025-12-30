@@ -24,6 +24,7 @@ Long description of module's purpose
     'data': [
         # 'security/ir.model.access.csv',
         'views/sale_order_inherit.xml',
+        'views/res_config_settings_views.xml',
         # 'views/templates.xml',
     ],
     # only loaded in demonstration mode
