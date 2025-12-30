@@ -120,12 +120,12 @@ class SaleOrder(models.Model):
             for picking in order.picking_ids:
                 if order.van_sale:
                     picking.location_id = order.user_id.allowed_location.id
-                if self.env.company.auto_validate_delivery and picking.state not in ['done', 'cancel']:
-                    picking.action_confirm()
-                    if picking.state == 'confirmed':
-                        picking.action_assign()
-                    if picking.state in ['assigned', 'partially_available']:
-                        picking.button_validate()
+                # if self.env.company.auto_validate_delivery and picking.state not in ['done', 'cancel']:
+                #     picking.action_confirm()
+                #     if picking.state == 'confirmed':
+                #         picking.action_assign()
+                #     if picking.state in ['assigned', 'partially_available']:
+                #         picking.button_validate()
 
         return res
 
