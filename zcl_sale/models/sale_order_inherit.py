@@ -74,15 +74,16 @@ class SaleOrderLine(models.Model):
                 rec.available_qty = rec.available_qty or 0.0
 
     def action_show_stock(self):
-        self.ensure_one()
+        # self.ensure_one() # Removed to allow calling on new records (which might not have IDs yet)
         return {
             'name': 'Stock Availability',
             'type': 'ir.actions.act_window',
-            'view_mode': 'tree',
             'res_model': 'stock.quant',
-            'domain': [('product_id', '=', self.product_id.id)],
+            'view_mode': 'tree',
+            'views': [(False, 'tree')],
+            'domain': [('product_id', '=', self.product_id.id), ('location_id.usage', '=', 'internal')],
             'target': 'new',
-            'context': {'create': False, 'search_default_internal_loc': 1}
+            'context': {'create': False}
         }
 
 
