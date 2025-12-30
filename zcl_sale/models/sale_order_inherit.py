@@ -41,7 +41,7 @@ class SaleOrderLine(models.Model):
     #         else:
     #             rec.available_qty = rec.available_qty or 0.0
 
-    @api.depends('product_id', 'order_id.state')
+    @api.depends('product_id', 'order_id.state', 'order_id.warehouse_id')
     def _compute_available_qty(self):
         """Compute available quantity, ensuring all records are assigned a value."""
         for rec in self:
@@ -49,7 +49,7 @@ class SaleOrderLine(models.Model):
             if rec.order_id.state not in ['sale', 'cancel']:
                 if rec.product_id and not rec.order_id.van_sale:
                     # ADD WAREHOUSE CONDITION
-                    warehouse = self.env.user.property_warehouse_id
+                    warehouse = rec.order_id.warehouse_id
                     if warehouse:
                         # Get the Stock Location of the Warehouse
                         warehouse_location = warehouse.lot_stock_id
@@ -72,6 +72,18 @@ class SaleOrderLine(models.Model):
                     rec.available_qty = 0.0
             else:
                 rec.available_qty = rec.available_qty or 0.0
+
+    def action_show_stock(self):
+        self.ensure_one()
+        return {
+            'name': 'Stock Availability',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree',
+            'res_model': 'stock.quant',
+            'domain': [('product_id', '=', self.product_id.id)],
+            'target': 'new',
+            'context': {'create': False, 'search_default_internal_loc': 1}
+        }
 
 
 

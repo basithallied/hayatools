@@ -11,6 +11,7 @@
                     <field name="available_qty"/>
                 </xpath>
                 <xpath expr="//field[@name='order_line']//list//field[@name='product_uom_qty']" position="after">
+                    <button name="action_show_stock" type="object" icon="fa-info-circle" title="Stock Info"/>
                     <field name="standard_price"/>
                 </xpath>
                 <xpath expr="//group[@name='partner_details']/field[@name='partner_shipping_id']" position="after">
