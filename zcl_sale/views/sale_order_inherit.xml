@@ -15,6 +15,9 @@
                 </xpath>
                 <xpath expr="//group[@name='partner_details']/field[@name='partner_shipping_id']" position="after">
                     <field name="customer_balance" string="Balance"/>
+                    <field name="warehouse_id"/>
+                </xpath>
+                <xpath expr="//field[@name='warehouse_id']" position="replace">
                 </xpath>
             </field>
         </record>
