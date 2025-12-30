@@ -11,11 +11,29 @@ class AccountPartnerLedger(models.TransientModel):
                                           "report if the currency differs from "
                                           "the company currency.")
     reconciled = fields.Boolean('Reconciled Entries', default=True)
+    company_ids = fields.Many2many(
+        'res.company', string='Companies',
+        default=lambda self: self.env.companies
+    )
+
+    @api.onchange('company_ids')
+    def _onchange_company_ids(self):
+        if self.company_ids:
+            self.journal_ids = self.env['account.journal'].sudo().search(
+                [('company_id', 'in', self.company_ids.ids)])
+        else:
+            self.journal_ids = self.env['account.journal'].sudo().search([])
 
     def _get_report_data(self, data):
         data = self.pre_print_report(data)
         data['form'].update({'reconciled': self.reconciled,
-                             'amount_currency': self.amount_currency})
+                             'amount_currency': self.amount_currency,
+                             'company_ids': self.company_ids.ids})
+        if data['form'].get('company_ids'):
+            data['form']['used_context']['allowed_company_ids'] = data['form']['company_ids']
+            # Remove strict single company restriction if present, though allowed_company_ids should handle it
+            # in some Odoo versions, _query_get uses company_id from context if allowed_company_ids is not enough
+            # We explicitly set strictly_range or similar if needed, but context is key.
         return data
 
     def _print_report(self, data):
