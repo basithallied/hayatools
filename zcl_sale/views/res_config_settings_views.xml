@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="res_config_settings_view_form" model="ir.ui.view">
-            <field name="name">res.config.settings.view.form.inherit.zcl.sale</field>
+        <record id="res_config_settings_view_form_zcl_sale" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.zcl.sale.v2</field>
             <field name="model">res.config.settings</field>
             <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
             <field name="arch" type="xml">
+                <!-- Use data-key='sale_management' to locate the Sales settings tab -->
                 <xpath expr="//div[@data-key='sale_management']" position="inside">
-                    <h2>Delivery Automation</h2>
+                    <h2>Delivery</h2>
                     <div class="row mt16 o_settings_container">
-                        <div class="col-12 col-lg-6 o_setting_box" id="auto_validate_delivery">
+                        <div class="col-12 col-lg-6 o_setting_box" id="auto_validate_delivery_setting">
                             <div class="o_setting_left_pane">
                                 <field name="auto_validate_delivery"/>
                             </div>
