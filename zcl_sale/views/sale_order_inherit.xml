@@ -17,7 +17,7 @@
                     <field name="customer_balance" string="Balance"/>
                     <field name="warehouse_id"/>
                 </xpath>
-                <xpath expr="//field[@name='warehouse_id']" position="replace">
+                <xpath expr="//page[@name='other_information']//field[@name='warehouse_id']" position="replace">
                 </xpath>
             </field>
         </record>
