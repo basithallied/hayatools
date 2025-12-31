@@ -31,9 +31,7 @@ class AccountPartnerLedger(models.TransientModel):
                              'company_ids': self.company_ids.ids})
         if data['form'].get('company_ids'):
             data['form']['used_context']['allowed_company_ids'] = data['form']['company_ids']
-            # Remove strict single company restriction if present, though allowed_company_ids should handle it
-            # in some Odoo versions, _query_get uses company_id from context if allowed_company_ids is not enough
-            # We explicitly set strictly_range or similar if needed, but context is key.
+            data['form']['used_context']['company_id'] = False
         return data
 
     def _print_report(self, data):
