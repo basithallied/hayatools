@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_journal_import_wizard_form" model="ir.ui.view">
+        <field name="name">journal.import.wizard.form</field>
+        <field name="model">journal.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Journal Entries">
+                <group>
+                    <field name="file" filename="file_name"/>
+                    <field name="file_name" invisible="1"/>
+                    <field name="journal_id"/>
+                    <field name="contra_account_id" string="Contra Account (Balancing)"/>
+                    <field name="contra_partner_id" string="Contra Partner (e.g. Wife)"/>
+                </group>
+                <footer>
+                    <button name="import_journal_entry" string="Import" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_journal_import_wizard" model="ir.actions.act_window">
+        <field name="name">Import Journal Entries</field>
+        <field name="res_model">journal.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_journal_import_wizard"
+              name="Import Journal Entries (Excel)"
+              parent="account.menu_finance_entries"
+              action="action_journal_import_wizard"
+              sequence="100"/>
+</odoo>
