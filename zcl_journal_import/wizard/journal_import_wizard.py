@@ -28,7 +28,12 @@ class JournalImportWizard(models.TransientModel):
         # C: Account (2)
         # D: Party's Name (3)
         # E: Debit (4)
-        # F: Credit (5)
+        # DEBUG: Dump first 5 rows to check alignment
+        debug_msg = "DEBUG MODE - CHECKING DATA:\n"
+        for i in range(min(5, sheet.nrows)):
+            row_vals = sheet.row_values(i)
+            debug_msg += f"Row {i+1}: {row_vals}\n"
+        raise UserError(debug_msg)
 
         for row_idx in range(1, sheet.nrows): # Skip header
             row = sheet.row_values(row_idx)
