@@ -51,13 +51,11 @@ class JournalImportWizard(models.TransientModel):
             # Find Account
             account = self.env['account.account'].search([
                 ('code', '=', account_code_or_name),
-                ('company_id', '=', self.env.company.id)
             ], limit=1)
             if not account:
                 # Try by name
                 account = self.env['account.account'].search([
                     ('name', 'ilike', account_code_or_name),
-                    ('company_id', '=', self.env.company.id)
                 ], limit=1)
             
             if not account:
