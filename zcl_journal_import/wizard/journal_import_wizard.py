@@ -27,13 +27,9 @@ class JournalImportWizard(models.TransientModel):
         # B: Ref. No. (1)
         # C: Account (2)
         # D: Party's Name (3)
-        # E: Debit (4)
-        # DEBUG: Dump first 5 rows to check alignment
-        debug_msg = "DEBUG MODE - CHECKING DATA:\n"
-        for i in range(min(5, sheet.nrows)):
-            row_vals = sheet.row_values(i)
-            debug_msg += f"Row {i+1}: {row_vals}\n"
-        raise UserError(debug_msg)
+        # ...
+        # G: Debit (6)
+        # H: Credit (7)
 
         for row_idx in range(1, sheet.nrows): # Skip header
             row = sheet.row_values(row_idx)
@@ -42,8 +38,8 @@ class JournalImportWizard(models.TransientModel):
             ref = str(row[1]).split('.')[0] # Handle float '123.0' -> '123'
             account_code_or_name = str(row[2]).split('.')[0]
             party_name = row[3]
-            debit_raw = row[4]
-            credit_raw = row[5]
+            debit_raw = row[6] # Column G
+            credit_raw = row[7] # Column H
 
             def safe_float(val):
                 if not val:
