@@ -66,39 +66,39 @@ class JournalImportWizard(models.TransientModel):
             if not partner and party_name:
                 partner = self.env['res.partner'].create({'name': party_name})
             
-            # Create Move
-            move_vals = {
-                'date': date,
-                'ref': ref,
-                'journal_id': self.journal_id.id,
-                'move_type': 'entry',
-            }
-            move = self.env['account.move'].create(move_vals)
-
+            # Prepare Lines
+            line_ids = []
+            
             # 1. Main Line
-            line_vals = {
-                'move_id': move.id,
+            line_ids.append((0, 0, {
                 'account_id': account.id,
                 'partner_id': partner.id if partner else False,
                 'name': ref,
                 'debit': debit,
                 'credit': credit,
-            }
-            self.env['account.move.line'].create(line_vals)
+            }))
 
             # 2. Contra Line (Balancing)
             # Reverse Debit/Credit
             contra_debit = credit
             contra_credit = debit
             
-            contra_line_vals = {
-                'move_id': move.id,
+            line_ids.append((0, 0, {
                 'account_id': self.contra_account_id.id,
                 'partner_id': self.contra_partner_id.id if self.contra_partner_id else False,
                 'name': ref + ' (Contra)',
                 'debit': contra_debit,
                 'credit': contra_credit,
+            }))
+            
+            # Create Move with Lines
+            move_vals = {
+                'date': date,
+                'ref': ref,
+                'journal_id': self.journal_id.id,
+                'move_type': 'entry',
+                'line_ids': line_ids,
             }
-            self.env['account.move.line'].create(contra_line_vals)
+            self.env['account.move'].create(move_vals)
 
         return {'type': 'ir.actions.act_window_close'}
