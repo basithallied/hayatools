@@ -37,8 +37,25 @@ class JournalImportWizard(models.TransientModel):
             ref = str(row[1]).split('.')[0] # Handle float '123.0' -> '123'
             account_code_or_name = str(row[2]).split('.')[0]
             party_name = row[3]
-            debit = float(row[4]) if row[4] else 0.0
-            credit = float(row[5]) if row[5] else 0.0
+            debit_raw = row[4]
+            credit_raw = row[5]
+
+            def safe_float(val):
+                if not val:
+                    return 0.0
+                if isinstance(val, str):
+                    val = val.replace(',', '').strip()
+                try:
+                    return float(val)
+                except ValueError:
+                    return 0.0
+
+            debit = safe_float(debit_raw)
+            credit = safe_float(credit_raw)
+            
+            if debit == 0.0 and credit == 0.0:
+                 raise UserError(_("Row %s has 0 Debit and 0 Credit.\nRaw Data: %s") % (row_idx + 1, row))
+
 
             # Date parsing
             if isinstance(date_val, float):
