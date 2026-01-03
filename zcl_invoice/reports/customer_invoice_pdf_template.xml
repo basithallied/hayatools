@@ -265,7 +265,7 @@
 <!--        <xpath expr="//div[@class='page']/table[@class='o_has_total_table table table-borderless o_main_table' and @name='invoice_line_table']/thead/tr" position="attributes">-->
 <!--            <attribute name="style">border-bottom:1px solid black;</attribute>-->
 <!--        </xpath>-->
-        <xpath expr="//div[@class='page']//div[@class='clearfix pt-4 pb-3']//table[@class='o_total_table table table-borderless']//tr[@class='o_subtotal']" position="attributes">
+        <xpath expr="//div[@class='page']//table[@class='o_total_table table table-borderless']//tr[@class='o_subtotal']" position="attributes">
             <attribute name="style">border-top: 1px solid black;</attribute>
         </xpath>
 <!--Arabic name remove-->
@@ -280,7 +280,7 @@
             </strong>
         </xpath>
 
-        <xpath expr="//div[@class='page']//div[@class='clearfix pt-4 pb-3']//table[@class='o_total_table table table-borderless']//tr[@class='o_taxes']" position="attributes">
+        <xpath expr="//div[@class='page']//table[@class='o_total_table table table-borderless']//tr[@class='o_taxes']" position="attributes">
             <attribute name="style">border-bottom: 1px solid black;</attribute>
         </xpath>
         <xpath expr="//div[@class='page']//div[@id='total']" position="attributes">
