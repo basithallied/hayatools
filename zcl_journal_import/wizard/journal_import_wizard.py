@@ -40,6 +40,7 @@ class JournalImportWizard(models.TransientModel):
             party_name = row[3]
             debit_raw = row[6] # Column G
             credit_raw = row[7] # Column H
+            product_name = row[8] if len(row) > 8 else False
 
             def safe_float(val):
                 if not val:
@@ -84,6 +85,15 @@ class JournalImportWizard(models.TransientModel):
             if not partner and party_name:
                 partner = self.env['res.partner'].create({'name': party_name})
             
+            # Find Product
+            product = False
+            if product_name:
+                # convert to str to avoid issues if excel gives float/int for code
+                product_val = str(product_name).split('.')[0] if isinstance(product_name, float) else str(product_name)
+                product = self.env['product.product'].search([('default_code', '=', product_val)], limit=1)
+                if not product:
+                    product = self.env['product.product'].search([('name', '=', product_val)], limit=1)
+
             # Prepare Lines
             line_ids = []
             
@@ -91,6 +101,7 @@ class JournalImportWizard(models.TransientModel):
             line_ids.append((0, 0, {
                 'account_id': account.id,
                 'partner_id': partner.id if partner else False,
+                'product_id': product.id if product else False,
                 'name': ref,
                 'debit': debit,
                 'credit': credit,

@@ -8,7 +8,7 @@
                     <field name="manuel_entry" invisible="1"/>
                 </xpath>
                 <xpath expr="//field[@name='line_ids']/list/field[@name='account_id']" position="before">
-                    <field name="product_id" optional="hide"/>
+                    <field name="product_id" optional="show"/>
                 </xpath>
                 <xpath expr="//button[@name='action_register_payment']" position="before">
                     <button name="print_custom_invoice_report"
