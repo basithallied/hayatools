@@ -486,12 +486,14 @@
             <attribute name="style">font-size: 18px;</attribute>
         </xpath>
 
+<!--
         <xpath expr="//span[contains(text(), 'Tax Invoice')]" position="attributes">
                 <attribute name="style">font-size: 21px;</attribute>
         </xpath>
         <xpath expr="//span[contains(text(), ' فاتورة ضريبية')]" position="attributes">
                 <attribute name="style">font-size: 21px;</attribute>
-        </xpath>"
+        </xpath>
+-->"
 
 
 
